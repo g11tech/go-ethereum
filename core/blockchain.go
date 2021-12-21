@@ -1384,7 +1384,7 @@ func (bc *BlockChain) InsertChain(chain types.Blocks) (int, error) {
 		if start < len(chain) {
 			conf := bc.GetVMConfig()
 			conf.RandomOpcode = true
-			bc.SetVMConfig(*conf)
+			bc.SetVMConfig(conf)
 			newChain := types.Blocks(chain[start:])
 			if _, err := bc.insertChain(newChain, true, true); err != nil {
 				return len(chain), err
@@ -1913,12 +1913,12 @@ func (bc *BlockChain) recoverAncestors(block *types.Block) error {
 			// Disable Random for pre-merge blocks
 			conf := bc.GetVMConfig()
 			conf.RandomOpcode = false
-			bc.SetVMConfig(*conf)
+			bc.SetVMConfig(conf)
 			// Reenable Random afterwards
 			defer func() {
 				conf := bc.GetVMConfig()
 				conf.RandomOpcode = true
-				bc.SetVMConfig(*conf)
+				bc.SetVMConfig(conf)
 			}()
 		}
 
